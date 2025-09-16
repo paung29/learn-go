@@ -36,3 +36,12 @@ func CreateUserHandler(context *gin.Context) {
 
 	context.JSON(http.StatusCreated, createdUser)
 }
+
+func ListUserHandler(context *gin.Context){
+	userlist, err := service.ListAllUsers()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"error" : "failed to retrived users"})
+	}
+	context.JSON(http.StatusOK, userlist)
+}

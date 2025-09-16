@@ -20,3 +20,15 @@ func CreateUser(fullName string, email string) (model.User, error) {
 
 	return newUser, nil
 }
+
+func ListAllUsers() ([]model.User, error) {
+
+	var userList []model.User
+	result :=  database.DB.Order("id ASC").Find(&userList)
+	err := result.Error
+
+	if err != nil {
+		return nil, err
+	}
+	return userList, nil
+}

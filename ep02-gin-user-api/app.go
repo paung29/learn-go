@@ -28,6 +28,7 @@ func main() {
 	})
 
 	router.POST("/users", controller.CreateUserHandler)
+	router.GET("/users", controller.ListUserHandler)
 
 	runServerError := router.Run(":8080")
 	if runServerError != nil {
