@@ -45,3 +45,7 @@ func ListUserHandler(context *gin.Context){
 	}
 	context.JSON(http.StatusOK, userlist)
 }
+
+func GetUserByIDHandler(context *gin.Context) {
+
+}
