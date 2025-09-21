@@ -21,8 +21,9 @@ func main() {
 	
 	route := gin.Default()
 	route.POST("/user", controller.CreateUser)
+	route.GET("/user/:id", controller.GetUserById)
+	route.GET("/users", controller.GetAllUser)
 
-	
 	route.Run(":8080")
 
 }
