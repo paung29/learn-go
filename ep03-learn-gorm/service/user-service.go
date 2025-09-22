@@ -21,3 +21,8 @@ func GetAllUser() ([]model.User, error){
 	result := database.DB.Find(&users)
 	return users, result.Error
 }
+
+func DeleteUser(id uint) error {
+	result := database.DB.Delete(&model.User{}, id)
+	return result.Error
+}

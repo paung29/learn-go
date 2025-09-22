@@ -51,3 +51,19 @@ func GetAllUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, users)
 }
+
+func DeleteUserById(c *gin.Context) {
+	idString := c.Param("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error : " : "id must be a number"})
+		return
+	}
+
+	if err := service.DeleteUser(uint(id)); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error : " : "failed to delete user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message : " : "user deleted successfully"})
+}

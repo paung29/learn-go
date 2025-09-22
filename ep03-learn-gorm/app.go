@@ -23,6 +23,7 @@ func main() {
 	route.POST("/user", controller.CreateUser)
 	route.GET("/user/:id", controller.GetUserById)
 	route.GET("/users", controller.GetAllUser)
+	route.DELETE("/user/:id", controller.DeleteUserById)
 
 	route.Run(":8080")
 
