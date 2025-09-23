@@ -3,6 +3,7 @@ package main
 import (
 	"ep03-learn-gorm/controller"
 	"ep03-learn-gorm/database"
+	"ep03-learn-gorm/middleware"
 	"ep03-learn-gorm/model"
 	"log"
 
@@ -20,10 +21,16 @@ func main() {
 	}
 	
 	route := gin.Default()
+	route.POST("/login", controller.LoginUser)
 	route.POST("/user", controller.CreateUser)
-	route.GET("/user/:id", controller.GetUserById)
-	route.GET("/users", controller.GetAllUser)
-	route.DELETE("/user/:id", controller.DeleteUserById)
+
+	auth := route.Group("/")
+	auth.Use(middleware.AuthMiddleware())
+	{
+		auth.GET("/user/:id", controller.GetUserById)
+		auth.GET("/users", controller.GetAllUser)
+		auth.DELETE("/user/:id", controller.DeleteUserById)
+	}
 
 	route.Run(":8080")
 

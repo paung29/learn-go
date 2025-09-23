@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"ep03-learn-gorm/controller/dto"
 	"ep03-learn-gorm/model"
 	"ep03-learn-gorm/service"
 	"net/http"
@@ -9,11 +10,33 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func LoginUser(c *gin.Context) {
+	var form dto.LoginForm
+
+	if err := c.ShouldBindJSON(&form); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error : " : err.Error()})
+		return
+	}
+
+	token, err := service.LoginUser(form.Email, form.Password)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error : " : err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"token :" : token})
+}
+
 func CreateUser(c *gin.Context) {
-	var user model.User
-	if err := c.ShouldBindJSON(&user);  err != nil {
+	var form dto.CreateUserForm
+	if err := c.ShouldBindJSON(&form);  err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error :" : err.Error()})
 		return
+	}
+
+	user := model.User{
+		Name : form.Name,
+		Email: form.Email,
+		Password: form.Password,
 	}
 
 	newUser, err := service.CreateUser(user)
